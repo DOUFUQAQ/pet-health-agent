@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pethealth.mapper.HealthRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.pethealth.entity.HealthRecord">
+        <id column="id" property="id"/>
+        <result column="pet_id" property="petId"/>
+        <result column="record_date" property="recordDate"/>
+        <result column="avg_temperature" property="avgTemperature"/>
+        <result column="max_temperature" property="maxTemperature"/>
+        <result column="min_temperature" property="minTemperature"/>
+        <result column="avg_heart_rate" property="avgHeartRate"/>
+        <result column="max_heart_rate" property="maxHeartRate"/>
+        <result column="min_heart_rate" property="minHeartRate"/>
+        <result column="activity_steps" property="activitySteps"/>
+        <result column="sleep_minutes" property="sleepMinutes"/>
+        <result column="food_grams" property="foodGrams"/>
+        <result column="water_ml" property="waterMl"/>
+        <result column="abnormal_behaviors" property="abnormalBehaviors"/>
+        <result column="health_score" property="healthScore"/>
+        <result column="ai_analysis" property="aiAnalysis"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="selectByPetAndDate" resultMap="BaseResultMap">
+        SELECT * FROM health_record
+        WHERE pet_id = #{petId} AND record_date = #{recordDate}
+        LIMIT 1
+    </select>
+
+    <select id="selectRecentRecords" resultMap="BaseResultMap">
+        SELECT * FROM health_record
+        WHERE pet_id = #{petId}
+          AND record_date >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
+        ORDER BY record_date ASC
+    </select>
+
+</mapper>

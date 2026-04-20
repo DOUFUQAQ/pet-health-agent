@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pethealth.mapper.DeviceDataMapper">
+
+    <resultMap id="BaseResultMap" type="com.pethealth.entity.DeviceData">
+        <id column="id" property="id"/>
+        <result column="device_id" property="deviceId"/>
+        <result column="pet_id" property="petId"/>
+        <result column="data_type" property="dataType"/>
+        <result column="data_value" property="dataValue"/>
+        <result column="timestamp" property="timestamp"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="selectByPetAndTypeAndTime" resultMap="BaseResultMap">
+        SELECT * FROM device_data
+        WHERE pet_id = #{petId}
+          AND data_type = #{dataType}
+          AND timestamp BETWEEN #{startTime} AND #{endTime}
+        ORDER BY timestamp ASC
+    </select>
+
+    <select id="selectDailyAggregate" resultType="java.util.Map">
+        SELECT
+            DATE(timestamp) AS date,
+            AVG(CAST(JSON_EXTRACT(data_value, '$.value') AS DECIMAL(10,2))) AS avg_value,
+            MAX(CAST(JSON_EXTRACT(data_value, '$.value') AS DECIMAL(10,2))) AS max_value,
+            MIN(CAST(JSON_EXTRACT(data_value, '$.value') AS DECIMAL(10,2))) AS min_value
+        FROM device_data
+        WHERE pet_id = #{petId}
+          AND data_type = #{dataType}
+          AND timestamp >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+        GROUP BY DATE(timestamp)
+        ORDER BY date ASC
+    </select>
+
+    <select id="selectLatestByPetAndType" resultMap="BaseResultMap">
+        SELECT * FROM device_data
+        WHERE pet_id = #{petId}
+          AND data_type = #{dataType}
+        ORDER BY timestamp DESC
+        LIMIT 1
+    </select>
+
+</mapper>
