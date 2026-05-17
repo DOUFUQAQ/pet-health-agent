@@ -1,0 +1,46 @@
+<view class="container">
+  <view class="card">
+    <view class="card-title">ESP32-CAM 接入</view>
+    <view class="card-sub">填写摄像头模块在局域网中的 IP 即可查看实时画面</view>
+
+    <view class="row">
+      <view class="label">CAM IP</view>
+      <input class="input" placeholder="例如 192.168.1.123" value="{{ip}}" bindinput="onIpInput" />
+    </view>
+
+    <view class="actions">
+      <button class="btn-primary" wx:if="{{!streaming}}" bindtap="startStream">连 接</button>
+      <button class="btn-stop" wx:else bindtap="stopStream">断 开</button>
+    </view>
+  </view>
+
+  <view class="card stream-card" wx:if="{{streaming}}">
+    <view class="row-between">
+      <view class="card-title" style="margin: 0">实时画面</view>
+      <view class="tag tag-success" wx:if="{{!error}}">在线 · {{fps}} fps</view>
+      <view class="tag tag-danger" wx:else>异常</view>
+    </view>
+    <view class="frame-wrap">
+      <image
+        wx:if="{{src}}"
+        class="frame"
+        mode="aspectFit"
+        src="{{src}}"
+        bindload="onFrameLoad"
+        binderror="onFrameError"
+      />
+      <view wx:else class="frame-placeholder">连接中…</view>
+    </view>
+    <view class="error-text" wx:if="{{error}}">{{error}}</view>
+  </view>
+
+  <view class="card hint-card" wx:if="{{!streaming}}">
+    <view class="muted">
+      使用步骤：
+      {{'\n'}}1. 用 USB-TTL 把 Arduino IDE 自带的 CameraWebServer 示例烧入 ESP32-CAM
+      {{'\n'}}2. 打开串口监视器，记下 Camera Ready 后打印的 IP
+      {{'\n'}}3. 把这个 IP（不要带 http://）填入上方输入框
+      {{'\n'}}4. 点连接后约 1-2 秒出现实时画面
+    </view>
+  </view>
+</view>

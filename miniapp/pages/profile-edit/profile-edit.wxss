@@ -1,0 +1,30 @@
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 14rpx;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #f1f5f9;
+  padding: 22rpx 0;
+}
+.row:last-of-type { border-bottom: none; }
+
+.label {
+  width: 180rpx;
+  color: #64748b;
+  font-size: 26rpx;
+}
+
+.input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #0f172a;
+}
+
+.btn-primary {
+  margin-top: 24rpx;
+}
