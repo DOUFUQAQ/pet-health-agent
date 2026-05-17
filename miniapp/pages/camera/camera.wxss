@@ -1,0 +1,67 @@
+.row {
+  display: flex;
+  align-items: center;
+  margin: 18rpx 0 4rpx;
+}
+.label {
+  width: 140rpx;
+  color: #64748b;
+  font-size: 26rpx;
+}
+.input {
+  flex: 1;
+  background: #f1f5f9;
+  height: 72rpx;
+  border-radius: 12rpx;
+  padding: 0 22rpx;
+  font-size: 28rpx;
+}
+
+.actions {
+  margin-top: 24rpx;
+}
+
+.btn-stop {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-radius: 12rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+}
+button.btn-stop::after { border: none; }
+
+.stream-card .row-between { margin-bottom: 18rpx; }
+
+.frame-wrap {
+  background: #0f172a;
+  border-radius: 12rpx;
+  overflow: hidden;
+  min-height: 420rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.frame {
+  width: 100%;
+  height: 540rpx;
+}
+.frame-placeholder {
+  color: #94a3b8;
+  font-size: 26rpx;
+}
+
+.error-text {
+  margin-top: 14rpx;
+  color: #b91c1c;
+  font-size: 24rpx;
+  line-height: 1.7;
+}
+
+.hint-card .muted {
+  white-space: pre-line;
+  font-size: 26rpx;
+  line-height: 1.9;
+}

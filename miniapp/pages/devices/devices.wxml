@@ -1,0 +1,92 @@
+<view class="container">
+  <!-- 顶部操作栏 -->
+  <view class="topbar">
+    <view>
+      <view class="page-title">我的设备</view>
+      <view class="page-sub muted">已绑定 {{devices.length}} 台</view>
+    </view>
+    <view class="add-btn" bindtap="openBind">
+      <text class="add-plus">+</text> 添加设备
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!devices.length}}">
+    <view class="empty-icon">📡</view>
+    <view class="empty-title">还没有绑定设备</view>
+    <view class="empty-sub muted">点击右上角按钮，扫码或手动添加你的第一台设备</view>
+    <button class="btn-primary empty-btn" bindtap="openBind">+ 立即绑定</button>
+  </view>
+
+  <!-- 设备列表 -->
+  <view class="device-card" wx:for="{{devices}}" wx:key="id">
+    <view class="row-between">
+      <view class="device-head">
+        <view class="device-name">{{item.deviceName}}</view>
+        <view class="device-id">ID: {{item.deviceId}}</view>
+      </view>
+      <view class="tag {{item.status === 1 ? 'tag-success' : item.status === 2 ? 'tag-danger' : 'tag-info'}}">
+        {{item.status === 1 ? '在线' : item.status === 2 ? '故障' : '离线'}}
+      </view>
+    </view>
+
+    <view class="device-meta">
+      <view class="meta-item"><view class="meta-label">类型</view><view class="meta-value">{{item.deviceType}}</view></view>
+      <view class="meta-item"><view class="meta-label">电量</view><view class="meta-value">{{item.battery !== undefined ? item.battery + '%' : '-'}}</view></view>
+      <view class="meta-item"><view class="meta-label">固件</view><view class="meta-value">{{item.firmwareVersion || '-'}}</view></view>
+    </view>
+
+    <view class="actions">
+      <button class="action-btn feed" data-id="{{item.id}}" data-command="feed" bindtap="onControl">喂食</button>
+      <button class="action-btn" data-id="{{item.id}}" data-command="sync" bindtap="onControl">同步</button>
+      <button class="action-btn warn" data-id="{{item.id}}" data-command="restart" bindtap="onControl">重启</button>
+      <button class="action-btn danger" data-id="{{item.id}}" data-name="{{item.deviceName}}" bindtap="onUnbind">解绑</button>
+    </view>
+  </view>
+
+  <!-- 绑定设备弹窗 -->
+  <view class="modal-mask" wx:if="{{showBindModal}}" bindtap="closeBind">
+    <view class="modal" catchtap="">
+      <view class="modal-header">
+        <view class="modal-title">绑定新设备</view>
+        <view class="modal-close" bindtap="closeBind">×</view>
+      </view>
+
+      <view class="form-row">
+        <view class="form-label">设备 ID</view>
+        <view class="form-input-wrap">
+          <input class="form-input" placeholder="手动输入或扫码" value="{{bindForm.deviceId}}" data-key="deviceId" bindinput="onBindInput" />
+          <view class="scan-btn" bindtap="scanDevice">扫码</view>
+        </view>
+      </view>
+
+      <view class="form-row">
+        <view class="form-label">设备名称</view>
+        <input class="form-input solo" placeholder="例如 客厅智能项圈" value="{{bindForm.deviceName}}" data-key="deviceName" bindinput="onBindInput" />
+      </view>
+
+      <view class="form-row">
+        <view class="form-label">设备类型</view>
+        <picker mode="selector" range="{{typeOptions}}" value="{{bindForm.typeIndex}}" bindchange="onPickType">
+          <view class="form-input solo picker">{{typeOptions[bindForm.typeIndex]}} ▾</view>
+        </picker>
+      </view>
+
+      <view class="form-row">
+        <view class="form-label">关联宠物</view>
+        <picker mode="selector" range="{{pets}}" range-key="name" value="{{bindForm.petIndex}}" bindchange="onPickPet">
+          <view class="form-input solo picker">{{pets[bindForm.petIndex].name || '请选择'}} ▾</view>
+        </picker>
+      </view>
+
+      <view class="modal-tip muted">
+        提示：ESP32 项圈出厂会贴一个二维码，内容为设备 ID。点扫码可自动填充。
+      </view>
+
+      <view class="modal-actions">
+        <button class="modal-btn" bindtap="closeBind">取消</button>
+        <button class="modal-btn primary" bindtap="onSubmitBind" loading="{{binding}}" disabled="{{binding}}">确认绑定</button>
+      </view>
+    </view>
+  </view>
+</view>
