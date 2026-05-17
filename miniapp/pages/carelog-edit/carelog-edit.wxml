@@ -1,0 +1,41 @@
+<view class="container">
+  <view class="card">
+    <view class="row">
+      <view class="label">类型</view>
+      <picker mode="selector" range="{{typeOptions}}" value="{{form.typeIndex}}" bindchange="onPickType">
+        <view class="input picker">{{ typeOptions[form.typeIndex] }} ▾</view>
+      </picker>
+    </view>
+    <view class="row">
+      <view class="label">标题</view>
+      <input class="input" placeholder="例如 早餐喂食" value="{{form.logTitle}}" data-key="logTitle" bindinput="onInput" />
+    </view>
+    <view class="row">
+      <view class="label">日期</view>
+      <picker mode="date" value="{{form.logDate}}" end="{{today}}" bindchange="onPickDate">
+        <view class="input picker">{{ form.logDate || '请选择' }} ▾</view>
+      </picker>
+    </view>
+    <view class="row">
+      <view class="label">时间</view>
+      <picker mode="time" value="{{form.logTime}}" bindchange="onPickTime">
+        <view class="input picker">{{ form.logTime || '请选择' }} ▾</view>
+      </picker>
+    </view>
+    <view class="row vertical">
+      <view class="label">详情</view>
+      <textarea
+        class="textarea"
+        placeholder="例如 狗粮 60g + 温水适量"
+        value="{{form.logContent}}"
+        data-key="logContent"
+        bindinput="onInput"
+        maxlength="500"
+      />
+    </view>
+  </view>
+
+  <button class="btn-primary" bindtap="onSubmit" loading="{{saving}}" disabled="{{saving}}">
+    {{ isEdit ? '保存修改' : '添加日志' }}
+  </button>
+</view>

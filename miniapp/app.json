@@ -1,0 +1,44 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/register/register",
+    "pages/dashboard/dashboard",
+    "pages/pets/pets",
+    "pages/pet-edit/pet-edit",
+    "pages/devices/devices",
+    "pages/location/location",
+    "pages/alerts/alerts",
+    "pages/profile/profile",
+    "pages/profile-edit/profile-edit",
+    "pages/camera/camera",
+    "pages/chat/chat",
+    "pages/carelogs/carelogs",
+    "pages/carelog-edit/carelog-edit"
+  ],
+  "tabBar": {
+    "color": "#94a3b8",
+    "selectedColor": "#3b82f6",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/dashboard/dashboard", "text": "看板", "iconPath": "images/tab_home.png", "selectedIconPath": "images/tab_home_on.png" },
+      { "pagePath": "pages/pets/pets", "text": "宠物", "iconPath": "images/tab_pet.png", "selectedIconPath": "images/tab_pet_on.png" },
+      { "pagePath": "pages/devices/devices", "text": "设备", "iconPath": "images/tab_device.png", "selectedIconPath": "images/tab_device_on.png" },
+      { "pagePath": "pages/alerts/alerts", "text": "预警", "iconPath": "images/tab_alert.png", "selectedIconPath": "images/tab_alert_on.png" },
+      { "pagePath": "pages/profile/profile", "text": "我的", "iconPath": "images/tab_me.png", "selectedIconPath": "images/tab_me_on.png" }
+    ]
+  },
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "智能宠物健康管家",
+    "backgroundColor": "#f1f5f9",
+    "enablePullDownRefresh": false
+  },
+  "permission": {
+    "scope.userLocation": { "desc": "用于在地图上显示宠物相对位置" }
+  },
+  "requiredPrivateInfos": ["getLocation"],
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
