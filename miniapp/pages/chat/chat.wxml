@@ -1,0 +1,89 @@
+<view class="chat-page">
+  <view class="topbar">
+    <view class="pet-picker">
+      <picker mode="selector" range="{{pets}}" range-key="name" value="{{petIndex}}" bindchange="onPickPet">
+        <view class="pet-pick">
+          <text class="muted">关联宠物</text>
+          <text class="pet-name">{{ pets[petIndex].name || '未选择' }} ▾</text>
+        </view>
+      </picker>
+    </view>
+    <view class="new-btn" bindtap="startNewSession">+ 新对话</view>
+  </view>
+
+  <!-- 上传进度条 -->
+  <view wx:if="{{uploadProgress !== null}}" class="upload-bar">
+    <view class="upload-bar-inner" style="width: {{uploadProgress}}%"></view>
+    <text class="upload-label">{{uploadType === 'video' ? '视频' : '图片'}}上传中 {{uploadProgress}}%</text>
+  </view>
+
+  <scroll-view class="msg-list" scroll-y scroll-into-view="{{scrollToView}}" scroll-with-animation>
+    <view wx:for="{{messages}}" wx:key="id" id="{{item.id}}" class="msg-wrap {{item.role}}">
+      <view class="bubble {{item.role}} {{item.placeholder ? 'placeholder' : ''}} {{item.isError ? 'error' : ''}}">
+        <!-- 图片气泡 -->
+        <image
+          wx:if="{{item.mediaType === 'image' && item.mediaPath}}"
+          class="bubble-img"
+          src="{{item.mediaPath}}"
+          mode="widthFix"
+          show-menu-by-longpress
+        />
+        <!-- 视频气泡 -->
+        <video
+          wx:elif="{{item.mediaType === 'video' && item.mediaPath}}"
+          class="bubble-video"
+          src="{{item.mediaPath}}"
+          controls
+          show-play-btn
+          object-fit="contain"
+        />
+        <!-- 文字 -->
+        <view wx:if="{{item.text}}" class="bubble-text">{{item.text}}</view>
+        <view class="bubble-time">{{item.time}}</view>
+      </view>
+    </view>
+
+    <!-- 建议问题（首次进入时） -->
+    <view wx:if="{{messages.length === 1}}" class="suggestions">
+      <view class="suggestion-title muted">试试问我：</view>
+      <view class="suggestion-list">
+        <view
+          class="suggestion-item"
+          wx:for="{{suggestions}}"
+          wx:for-item="s"
+          wx:key="*this"
+          data-text="{{s}}"
+          bindtap="pickSuggestion"
+        >
+          {{s}}
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="input-bar">
+    <!-- 图片按钮 -->
+    <view class="media-btn {{sending ? 'disabled' : ''}}" bindtap="onPickImage">
+      <text class="media-icon">🖼</text>
+    </view>
+    <!-- 视频按钮 -->
+    <view class="media-btn {{sending ? 'disabled' : ''}}" bindtap="onPickVideo">
+      <text class="media-icon">🎬</text>
+    </view>
+    <input
+      class="msg-input"
+      placeholder="问点什么…"
+      value="{{input}}"
+      bindinput="onInput"
+      bindconfirm="onSend"
+      confirm-type="send"
+      adjust-position="{{true}}"
+    />
+    <button
+      class="send-btn"
+      bindtap="onSend"
+      loading="{{sending}}"
+      disabled="{{sending || !input}}"
+    >发送</button>
+  </view>
+</view>

@@ -1,0 +1,66 @@
+<view class="container">
+  <view class="card pet-card">
+    <view class="row-between">
+      <view>
+        <view class="muted" style="font-size: 24rpx;">当前宠物</view>
+        <picker mode="selector" range="{{pets}}" range-key="name" value="{{petIndex}}" bindchange="onPickPet">
+          <view class="pet-name">
+            {{ pets[petIndex].name || '请选择' }} <text class="dropdown">▾</text>
+          </view>
+        </picker>
+      </view>
+      <view class="health-score" wx:if="{{dashboard}}">
+        <view class="score-num">{{dashboard.healthScore || '-'}}</view>
+        <view class="score-label">健康评分</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="kpi-grid">
+    <view class="kpi-item">
+      <view class="kpi-title">实时体温</view>
+      <view class="kpi-value">{{dashboard.currentTemperature || '-'}}<text class="unit">°C</text></view>
+    </view>
+    <view class="kpi-item">
+      <view class="kpi-title">实时心率</view>
+      <view class="kpi-value">{{dashboard.currentHeartRate || '-'}}<text class="unit">bpm</text></view>
+    </view>
+    <view class="kpi-item">
+      <view class="kpi-title">环境温度</view>
+      <view class="kpi-value">{{dashboard.currentEnvTemp || '-'}}<text class="unit">°C</text></view>
+    </view>
+    <view class="kpi-item">
+      <view class="kpi-title">环境湿度</view>
+      <view class="kpi-value">{{dashboard.currentHumidity || '-'}}<text class="unit">%</text></view>
+    </view>
+    <view class="kpi-item">
+      <view class="kpi-title">今日步数</view>
+      <view class="kpi-value">{{dashboard.todaySteps || 0}}<text class="unit">步</text></view>
+    </view>
+    <view class="kpi-item">
+      <view class="kpi-title">未读预警</view>
+      <view class="kpi-value">{{dashboard.unreadAlerts || 0}}<text class="unit">条</text></view>
+    </view>
+  </view>
+
+  <view class="quick-row">
+    <view class="quick-item" bindtap="goChat">
+      <view class="quick-icon ai">🤖</view>
+      <view class="quick-text">AI 医生</view>
+    </view>
+    <view class="quick-item" bindtap="goCareLogs">
+      <view class="quick-icon log">📋</view>
+      <view class="quick-text">养护日志</view>
+    </view>
+    <view class="quick-item" bindtap="goLocation">
+      <view class="quick-icon loc">📍</view>
+      <view class="quick-text">实时定位</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">AI 健康建议</view>
+    <view class="ai-text" wx:if="{{dashboard.aiAnalysis}}">{{dashboard.aiAnalysis}}</view>
+    <view class="empty" wx:else>暂无分析结果</view>
+  </view>
+</view>

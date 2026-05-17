@@ -1,0 +1,186 @@
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f1f5f9;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 28rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #e2e8f0;
+}
+.pet-picker { flex: 1; }
+.pet-pick { display: flex; flex-direction: column; gap: 4rpx; }
+.pet-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.new-btn {
+  background: #f1f5f9;
+  color: #3b82f6;
+  font-size: 24rpx;
+  padding: 10rpx 22rpx;
+  border-radius: 999rpx;
+  font-weight: 500;
+}
+
+/* 上传进度条 */
+.upload-bar {
+  position: relative;
+  height: 44rpx;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+.upload-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #6366f1);
+  transition: width 0.2s;
+}
+.upload-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22rpx;
+  color: #1e293b;
+  white-space: nowrap;
+}
+
+.msg-list {
+  flex: 1;
+  padding: 24rpx 24rpx 16rpx;
+  box-sizing: border-box;
+}
+
+.msg-wrap {
+  display: flex;
+  margin-bottom: 22rpx;
+}
+.msg-wrap.user { justify-content: flex-end; }
+.msg-wrap.ai   { justify-content: flex-start; }
+
+.bubble {
+  max-width: 75%;
+  padding: 18rpx 22rpx;
+  border-radius: 18rpx;
+  position: relative;
+}
+.bubble.user {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: #fff;
+  border-bottom-right-radius: 6rpx;
+  box-shadow: 0 6rpx 14rpx rgba(99, 102, 241, 0.22);
+}
+.bubble.ai {
+  background: #fff;
+  color: #0f172a;
+  border-bottom-left-radius: 6rpx;
+  box-shadow: 0 2rpx 8rpx rgba(15, 23, 42, 0.06);
+}
+.bubble.placeholder { opacity: 0.7; }
+.bubble.error { background: #fee2e2; color: #b91c1c; }
+
+/* 图片/视频气泡 */
+.bubble-img {
+  width: 360rpx;
+  border-radius: 12rpx;
+  display: block;
+  margin-bottom: 8rpx;
+}
+.bubble-video {
+  width: 360rpx;
+  height: 220rpx;
+  border-radius: 12rpx;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.bubble-text {
+  font-size: 28rpx;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.bubble-time {
+  margin-top: 8rpx;
+  font-size: 20rpx;
+  opacity: 0.55;
+}
+.bubble.user .bubble-time { text-align: right; }
+
+.suggestions {
+  margin-top: 12rpx;
+}
+.suggestion-title {
+  font-size: 24rpx;
+  margin-bottom: 12rpx;
+  margin-left: 8rpx;
+}
+.suggestion-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+}
+.suggestion-item {
+  background: #fff;
+  color: #1e293b;
+  padding: 16rpx 22rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  border: 1rpx solid #e2e8f0;
+}
+
+/* 输入栏 */
+.input-bar {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  padding: 18rpx 16rpx calc(18rpx + env(safe-area-inset-bottom));
+  background: #fff;
+  border-top: 1rpx solid #e2e8f0;
+}
+
+/* 图片/视频选择按钮 */
+.media-btn {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 16rpx;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.media-btn.disabled { opacity: 0.4; }
+.media-icon { font-size: 36rpx; line-height: 1; }
+
+.msg-input {
+  flex: 1;
+  background: #f1f5f9;
+  border-radius: 999rpx;
+  padding: 0 28rpx;
+  height: 76rpx;
+  font-size: 28rpx;
+}
+.send-btn {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: #fff;
+  font-size: 26rpx;
+  font-weight: 500;
+  height: 76rpx;
+  line-height: 76rpx;
+  padding: 0 30rpx;
+  border-radius: 999rpx;
+  border: none;
+  margin: 0;
+  flex-shrink: 0;
+}
+button.send-btn[disabled] { opacity: 0.5; }
+button.send-btn::after { border: none; }
+
