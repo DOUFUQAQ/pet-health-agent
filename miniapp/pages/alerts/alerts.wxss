@@ -1,0 +1,45 @@
+.filter-value { font-weight: 600; color: #0f172a; }
+
+.alert-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(15, 23, 42, 0.04);
+}
+
+.alert-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #0f172a;
+  flex: 1;
+  margin-right: 16rpx;
+}
+
+.alert-content {
+  margin-top: 16rpx;
+  color: #475569;
+  font-size: 26rpx;
+  line-height: 1.7;
+}
+
+.alert-meta {
+  margin-top: 18rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 22rpx;
+}
+
+.mark-btn {
+  background: #f1f5f9;
+  color: #1e293b;
+  border-radius: 24rpx;
+  padding: 0 22rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  font-size: 24rpx;
+  border: none;
+  margin: 0;
+}
+button.mark-btn::after { border: none; }
