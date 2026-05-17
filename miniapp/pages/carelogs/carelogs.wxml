@@ -1,0 +1,55 @@
+<view class="container">
+  <view class="topbar">
+    <view>
+      <view class="page-title">养护日志</view>
+      <view class="page-sub muted">共 {{total}} 条</view>
+    </view>
+    <view class="add-btn" bindtap="goAdd"><text class="plus">+</text> 新建</view>
+  </view>
+
+  <view class="card filter-card">
+    <view class="filter-row">
+      <picker mode="selector" range="{{pets}}" range-key="name" value="{{petIndex}}" bindchange="onPickPet">
+        <view class="filter-item">
+          <view class="muted">宠物</view>
+          <view class="filter-value">{{ pets[petIndex].name || '请选择' }} ▾</view>
+        </view>
+      </picker>
+      <picker mode="selector" range="{{typeOptions}}" value="{{typeIndex}}" bindchange="onPickType">
+        <view class="filter-item">
+          <view class="muted">类型</view>
+          <view class="filter-value">{{ typeOptions[typeIndex] }} ▾</view>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class="logs" bindscrolltolower="loadMore">
+    <view class="empty-state" wx:if="{{!list.length && !loading}}">
+      <view class="empty-icon">📋</view>
+      <view class="empty-title">还没有养护记录</view>
+      <view class="empty-sub muted">记录每一次喂食、用药、疫苗与体检</view>
+      <button class="btn-primary empty-btn" bindtap="goAdd">+ 添加第一条</button>
+    </view>
+
+    <view class="log-card" wx:for="{{list}}" wx:key="id">
+      <view class="log-head">
+        <view class="log-icon">{{item.typeIcon}}</view>
+        <view class="log-info">
+          <view class="row-between">
+            <view class="log-title">{{item.logTitle}}</view>
+            <view class="tag {{item.typeColor}}">{{item.typeLabel}}</view>
+          </view>
+          <view class="log-time muted">{{item.logTime}}</view>
+        </view>
+      </view>
+      <view class="log-content" wx:if="{{item.logContent}}">{{item.logContent}}</view>
+      <view class="log-actions">
+        <view class="link-btn" data-id="{{item.id}}" bindtap="goEdit">编辑</view>
+        <view class="link-btn danger" data-id="{{item.id}}" data-title="{{item.logTitle}}" bindtap="onRemove">删除</view>
+      </view>
+    </view>
+
+    <view class="load-tip muted" wx:if="{{list.length && !hasMore}}">— 没有更多了 —</view>
+  </scroll-view>
+</view>
