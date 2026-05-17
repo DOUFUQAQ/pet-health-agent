@@ -1,0 +1,41 @@
+<view class="container">
+  <view class="card">
+    <view class="filter-row">
+      <picker mode="selector" range="{{pets}}" range-key="name" value="{{petIndex}}" bindchange="onPickPet">
+        <view class="filter-item">
+          <view class="muted">宠物</view>
+          <view class="filter-value">{{ pets[petIndex].name || '请选择' }} ▾</view>
+        </view>
+      </picker>
+      <picker mode="selector" range="{{['1 小时','6 小时','24 小时','7 天']}}" range-key="" value="{{hours === 1 ? 0 : hours === 6 ? 1 : hours === 24 ? 2 : 3}}" bindchange="onPickHours">
+        <view class="filter-item">
+          <view class="muted">时间范围</view>
+          <view class="filter-value">最近 {{hours < 24 ? hours + ' 小时' : (hours / 24) + ' 天'}} ▾</view>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="map-card">
+    <map
+      class="map"
+      latitude="{{centerLat}}"
+      longitude="{{centerLng}}"
+      markers="{{markers}}"
+      polyline="{{polylines}}"
+      scale="14"
+      show-location="{{false}}"
+    ></map>
+    <view class="map-empty" wx:if="{{!pointsCount}}">
+      暂无定位数据{{'\n'}}请确保 GPS 模块户外天线朝天，已锁星
+    </view>
+  </view>
+
+  <view class="card info-card">
+    <view class="card-title">定位概览</view>
+    <view class="info-row"><view class="info-label">最后定位时间</view><view class="info-value">{{lastTime}}</view></view>
+    <view class="info-row"><view class="info-label">坐标</view><view class="info-value">{{lastCoord}}</view></view>
+    <view class="info-row"><view class="info-label">连接卫星</view><view class="info-value">{{lastSats}}</view></view>
+    <view class="info-row"><view class="info-label">轨迹点数</view><view class="info-value">{{pointsCount}}</view></view>
+  </view>
+</view>
