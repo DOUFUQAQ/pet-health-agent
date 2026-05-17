@@ -1,0 +1,51 @@
+<view class="container">
+  <view class="card">
+    <view class="section-title">基本信息</view>
+    <view class="row">
+      <view class="label">名称</view>
+      <input class="input" placeholder="给它起个名字" value="{{form.name}}" data-key="name" bindinput="onInput" />
+    </view>
+    <view class="row">
+      <view class="label">物种</view>
+      <picker mode="selector" range="{{speciesOptions}}" value="{{form.speciesIndex}}" bindchange="onPickSpecies">
+        <view class="input picker">{{speciesOptions[form.speciesIndex]}} ▾</view>
+      </picker>
+    </view>
+    <view class="row">
+      <view class="label">品种</view>
+      <input class="input" placeholder="例如 柯基 / 英短" value="{{form.breed}}" data-key="breed" bindinput="onInput" />
+    </view>
+    <view class="row">
+      <view class="label">性别</view>
+      <picker mode="selector" range="{{genderOptions}}" value="{{form.genderIndex}}" bindchange="onPickGender">
+        <view class="input picker">{{genderOptions[form.genderIndex]}} ▾</view>
+      </picker>
+    </view>
+    <view class="row">
+      <view class="label">出生日期</view>
+      <picker mode="date" value="{{form.birthday}}" end="{{today}}" bindchange="onPickBirthday">
+        <view class="input picker">{{form.birthday || '请选择 ▾'}}</view>
+      </picker>
+    </view>
+    <view class="row">
+      <view class="label">体重 (kg)</view>
+      <input class="input" type="digit" placeholder="例如 10.5" value="{{form.weight}}" data-key="weight" bindinput="onInput" />
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">健康档案</view>
+    <view class="row vertical">
+      <view class="label">既往病史</view>
+      <textarea class="textarea" placeholder="如皮肤病、术后恢复等" value="{{form.medicalHistory}}" data-key="medicalHistory" bindinput="onInput" maxlength="200" />
+    </view>
+    <view class="row vertical">
+      <view class="label">过敏史</view>
+      <textarea class="textarea" placeholder="如对牛肉过敏" value="{{form.allergies}}" data-key="allergies" bindinput="onInput" maxlength="200" />
+    </view>
+  </view>
+
+  <button class="btn-primary" bindtap="onSubmit" loading="{{saving}}" disabled="{{saving}}">
+    {{isEdit ? '保存修改' : '添加宠物'}}
+  </button>
+</view>
