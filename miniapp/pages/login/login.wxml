@@ -1,0 +1,29 @@
+<view class="page">
+  <view class="hero">
+    <view class="logo-dot"></view>
+    <view class="brand">PetHealth</view>
+    <view class="slogan">智能宠物健康管家</view>
+  </view>
+
+  <view class="card form">
+    <view class="form-title">账号登录</view>
+    <view class="input-wrap">
+      <view class="input-label">用户名</view>
+      <input class="input" placeholder="请输入用户名" value="{{username}}" bindinput="onUsernameInput" />
+    </view>
+    <view class="input-wrap">
+      <view class="input-label">密码</view>
+      <input class="input" type="password" password placeholder="请输入密码" value="{{password}}" bindinput="onPasswordInput" />
+    </view>
+
+    <button class="btn-primary" bindtap="onLogin" loading="{{loading}}" disabled="{{loading}}">登 录</button>
+
+    <view class="alt-row">
+      <text class="alt-text" bindtap="goRegister">没有账号？<text class="link">立即注册</text></text>
+    </view>
+
+    <view class="tip">
+      演示账号：<text class="code">your_account</text> / <text class="code"></text>
+    </view>
+  </view>
+</view>
