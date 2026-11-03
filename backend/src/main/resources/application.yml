@@ -1,0 +1,184 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  tomcat:
+    uri-encoding: UTF-8
+    threads:
+      max: 200
+      min-spare: 10
+
+spring:
+  application:
+    name: pet-health-backend
+
+  # 数据源：连接串、账号、密码全部从环境变量读取（见仓库根目录 .env.example）
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:pet_health}?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: false
+        login-username: ${DRUID_USERNAME:admin}
+        login-password: ${DRUID_PASSWORD:}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+      timeout: 10000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+
+  jackson:
+    date-format: yyyy-MM-DD HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+      fail-on-empty-beans: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.pethealth.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+mqtt:
+  broker-url: ${MQTT_BROKER_URL:tcp://broker.emqx.io:1883}
+  client-id: pet-health-server-${random.value}
+  username: ${MQTT_USERNAME:}
+  password: ${MQTT_PASSWORD:}
+  keepalive-interval: 60
+  connection-timeout: 30
+  topics:
+    # 设备数据上报 / 控制 / 状态
+    device-data: pet/device/+/data
+    device-control: pet/device/+/control
+    device-status: pet/device/+/status
+  qos: 1
+
+jwt:
+  # HS512 要求密钥长度 >= 64 字节，生产环境务必通过环境变量覆盖
+  secret: ${JWT_SECRET:dev-only-secret-change-me-0123456789abcdef0123456789abcdef0123456789abcdef}
+  expiration: 604800000  # 7 天（毫秒）
+  header: Authorization
+  prefix: Bearer
+
+upload:
+  base-dir: ${UPLOAD_BASE_DIR:uploads}
+
+# 大模型：密钥只从环境变量读取
+ai:
+  qwen:
+    llm:
+      api-key: ${QWEN_API_KEY:}
+      api-url: ${QWEN_LLM_URL:https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation}
+      model: ${QWEN_LLM_MODEL:qwen-max}
+      max-tokens: 2000
+      temperature: 0.7
+    vision:
+      api-key: ${QWEN_API_KEY:}
+      api-url: ${QWEN_VL_URL:https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation}
+      model: ${QWEN_VL_MODEL:qwen-vl-max}
+      max-tokens: 1000
+  timeout:
+    connect: 30000
+    read: 60000
+    write: 60000
+
+# 健康评估阈值（体温 ℃ / 心率 次·分 / 活动量 步·天）
+health:
+  temperature:
+    dog: { min: 38.0, max: 39.2 }
+    cat: { min: 38.0, max: 39.5 }
+  heart-rate:
+    dog:
+      small:  { min: 100, max: 160 }
+      medium: { min: 80,  max: 140 }
+      large:  { min: 60,  max: 120 }
+    cat: { min: 140, max: 220 }
+  activity:
+    dog: { min: 2000, max: 15000 }
+    cat: { min: 1000, max: 8000 }
+
+alert:
+  levels:
+    info: 0
+    warning: 1
+    error: 2
+    critical: 3
+  push:
+    enabled: true
+    channels:
+      - app
+      - sms
+  rules:
+    temperature-duration: 30
+    heart-rate-duration: 15
+    activity-days: 2
+
+logging:
+  level:
+    root: INFO
+    com.pethealth: DEBUG
+    com.pethealth.mapper: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/pet-health.log
+    max-size: 100MB
+    max-history: 30
+    total-size-cap: 1GB
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
