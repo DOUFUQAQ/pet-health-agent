@@ -1,0 +1,47 @@
+# ---- Java / Maven ----
+target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+
+# ---- 前端 ----
+node_modules/
+dist/
+.vite/
+*.local
+
+# ---- 小程序 ----
+unpackage/
+miniprogram_npm/
+project.private.config.json
+
+# ---- PlatformIO / 固件 ----
+.pio/
+.pioenvs/
+.piolibdeps/
+*.elf
+*.bin
+*.hex
+
+# ---- 配置与凭据 ----
+.env
+.env.*
+!.env.example
+# 注意：include/config.h 里的凭据已全部换成占位符，所以它要进版本库。
+# 不要把它加进忽略列表，否则固件编译不过去。
+
+# ---- 运行产物 ----
+logs/
+*.log
+uploads/
+db/*.dump
+*.sql.gz
+
+# ---- IDE / 系统 ----
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+__pycache__/
